@@ -8,7 +8,7 @@ import Heap from "./Pages/Heap"
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Home />
+        element: <Home/>
     },
     {
         path: "/dijkstra",
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/heap",
-        element: <Heap />
+        element: <Heap/>
     }
 ])
 
