@@ -62,7 +62,6 @@ const Heap = () => {
                 let parent = newHeap[getParent(curr)];
                 newHeap[getParent(curr)] = newHeap[curr];
                 newHeap[curr] = parent;
-
                 curr = getParent(curr);
             }
             console.log(newHeap);

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 
 const Node = (props) => {
@@ -60,6 +60,16 @@ const Node = (props) => {
     )
 }
 
+const slowedAppearance = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`;
+
 const Circle = styled.div`
   position: absolute;
   left: ${props => props.left};
@@ -73,6 +83,27 @@ const Circle = styled.div`
   color: black;
   border-radius: 100%;
   font-weight: bold;
+  animation: appearanceTransition 2s;
+
+  @keyframes appearanceTransition {
+    0% {
+      opacity: 0;
+      top: 200px;
+      left: 70px;
+    }
+
+    50% {
+      opacity: 1;
+      top: 200px;
+      left: 70px;
+
+    }
+
+    100% {
+      left: ${props => props.left};
+      top: ${props => props.top};
+    }
+  }
 `;
 
 const Edge = styled.hr`
@@ -91,6 +122,17 @@ const Edge = styled.hr`
   background-color: black;
   border: black solid 1.5px;
   border-radius: 10px;
+  animation: widthProgression 2s linear;
+
+  @keyframes widthProgression {
+    0% {
+      width: 0;
+    }
+
+    100% {
+      width: ${props => props.width + "px"};
+    }
+  }
 `;
 
 
