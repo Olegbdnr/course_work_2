@@ -3,11 +3,12 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import Home from "./Pages/Home";
+import Heap from "./Pages/Heap"
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Home />
+        element: <Home/>
     },
     {
         path: "/dijkstra",
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/heap",
-        element: <div>Its heap</div>
+        element: <Heap/>
     }
 ])
 
