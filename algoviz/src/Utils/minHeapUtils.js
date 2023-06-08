@@ -9,3 +9,7 @@ export const getLeftChild = (index) => {
 export const getRightChild = (index) => {
     return (2 * index + 2);
 }
+
+export const getMin = (arr) => {
+    return arr[0];
+}

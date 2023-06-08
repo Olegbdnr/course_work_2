@@ -4,13 +4,55 @@ import back from "../Imgs/cool-background.png";
 import correctIcon from "../Imgs/correct.png";
 import trashIcon from "../Imgs/trashcan.png";
 import Node from "../Components/Node";
-import {getRightChild, getLeftChild, getParent} from "../Utils/minHeapUtils";
+import {getRightChild, getLeftChild, getParent, getMin} from "../Utils/minHeapUtils";
 
 const Heap = () => {
     const [heap, setHeap] = useState([]);
     const ROOT_CSS_POSITION_LEFT = 700;
     const addInputRef = useRef();
     const deleteInputRef = useRef();
+    console.log(heap);
+
+    const heapify = (index, arr) => {
+
+        console.log(arr);
+
+        let left = getLeftChild(index);
+        let right = getRightChild(index);
+
+        let smallest = index;
+
+        console.log(arr.length + " - length")
+
+        if (left < arr.length && arr[left] < arr[index]) {
+            smallest = left;
+        }
+
+        if (right < arr.length && arr[right] < arr[smallest]) {
+            smallest = right;
+        }
+
+        if (smallest !== index) {
+            let temp = arr[index];
+            arr[index] = arr[smallest];
+            arr[smallest] = temp;
+            heapify(smallest, arr);
+        }
+
+    }
+
+    const deleteMin = (arr) => {
+        const newHeap = arr;
+
+        newHeap[0] = newHeap[newHeap.length - 1];
+
+        newHeap.pop();
+
+        heapify(0, newHeap);
+
+        setHeap(newHeap)
+    }
+
 
     const getParentLeftPosition = (parentIndex, treeHeightForChild) => {
         const cssLeftValues = [280, 240, 120, 40, 60];
@@ -51,6 +93,11 @@ const Heap = () => {
         })
     }
 
+    const deleteAll = () => {
+        const newHeap = [];
+        setHeap(newHeap);
+    }
+
 
     const addNode = () => {
         if (heap.length !== 15) {
@@ -64,7 +111,6 @@ const Heap = () => {
                 newHeap[curr] = parent;
                 curr = getParent(curr);
             }
-            console.log(newHeap);
             setHeap(newHeap);
         } else {
             alert("You reached maximum number of elements in heap, which is '15'");
@@ -74,8 +120,21 @@ const Heap = () => {
     const deleteNode = () => {
         const inputValue = deleteInputRef.current.value;
         const newHeap = [...heap];
-        newHeap.splice(newHeap.indexOf(inputValue), 1);
-        setHeap(newHeap);
+
+        const index = newHeap.indexOf(parseInt(inputValue));
+
+        newHeap[index] = getMin(newHeap) - 1;
+
+        let curr = index;
+        while (curr > 0 && newHeap[getParent(curr)] > newHeap[curr]) {
+            let temp = newHeap[getParent(curr)];
+            newHeap[getParent(curr)] = newHeap[curr];
+            newHeap[curr] = temp;
+            curr = getParent(curr);
+        }
+
+        deleteMin(newHeap);
+
     }
 
 
@@ -83,11 +142,12 @@ const Heap = () => {
             <StyledHeader>
                 Add:
                 <Input ref={addInputRef}/>
-                <img src={correctIcon} alt="correctIcon" style={{marginRight: 10}}
+                <img src={correctIcon} alt="correctIcon" style={{marginRight: 10, cursor: "pointer"}}
                      onClick={addNode}/>
                 Delete:
                 <Input ref={deleteInputRef}/>
-                <img src={trashIcon} alt="trashIcon" style={{width: 24}} onClick={deleteNode}/>
+                <img src={trashIcon} alt="trashIcon" style={{width: 24, cursor: "pointer"}} onClick={deleteNode}/>
+                <p style={{color: "red", marginLeft: 10, cursor: "pointer"}} onClick={deleteAll}><b>All</b></p>
             </StyledHeader>
             {getTree()}
         </>
